@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignoVoice</title>
+    <style>
+        video 
+        {
+            width: 100%; 
+            height: auto;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color:blue; background-color: gray;">SignoVoice -get live interpreters</h1>
+    <video id="videoElement" autoplay controls></video>
+
+    <script>
+        // Access the user's webcam and microphone with high-quality constraints
+        const video = document.getElementById('videoElement');
+
+        // High-quality video and audio constraints
+        const constraints = {
+            video: {
+                width: { ideal: 1920 },  // Full HD width
+                height: { ideal: 1080 }, // Full HD height
+                frameRate: { ideal: 30 }, // 30 FPS for smoother video
+            },
+            audio: true // Include audio
+        };
+
+        // Request webcam and microphone access with specified constraints
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then((stream) => {
+                // Set the video source to the webcam stream
+                video.srcObject = stream;
+            })
+            .catch((error) => {
+                console.error('Error accessing the webcam or microphone:', error);
+                alert('Unable to access the camera or microphone. Please allow access.');
+            });
+    </script>
+</body>
+</html>
