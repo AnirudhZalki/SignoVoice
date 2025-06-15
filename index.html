@@ -3,44 +3,1464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignoVoice</title>
+    <title>SignoVoice - Breaking Communication Barriers</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        video 
-        {
-            width: 100%; 
-            height: auto;
-            border: 2px solid black;
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #ec4899;
+            --accent-color: #06d6a0;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background-color: var(--light-bg); /* Ensure body has a background */
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        /* Animated Background */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex; /* Use flexbox for centering content */
+            align-items: center; /* Vertically center content */
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" dur="3s" values="0.1;0.3;0.1" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" dur="4s" values="0.1;0.4;0.1" repeatCount="indefinite"/></circle><circle cx="60" cy="70" r="2.5" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" dur="2s" values="0.1;0.2;0.1" repeatCount="indefinite"/></circle></svg>');
+            animation: float 20s ease-in-out infinite;
+            z-index: 1; /* Ensure background animation is behind content */
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Navigation */
+        .navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary-custom:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid white;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Section Styling */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            background: var(--light-bg);
+            position: relative;
+        }
+
+        .demo-video {
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background: var(--dark-bg);
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--dark-bg);
+            color: white;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="3" fill="rgba(255,255,255,0.05)"/><circle cx="75" cy="75" r="2" fill="rgba(255,255,255,0.05)"/></svg>');
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-bg);
+            color: white;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* App Store Buttons */
+        .app-store-btn {
+            display: inline-block;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .app-store-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .app-store-btn img {
+            height: 60px;
+            border-radius: 10px;
+        }
+
+        /* New style for the form submit button */
+        .btn-primary-form {
+            background: var(--primary-color); /* Use your primary color */
+            border: 2px solid var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-form:hover {
+            background: var(--primary-dark); /* Darker shade on hover */
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styles for the new interactive demo section */
+        .interactive-demo-section {
+            background: #f8fafc; /* Light background */
+            padding: 60px 0;
+        }
+
+        .interactive-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            margin-bottom: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .interactive-card h4 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .interactive-card .form-control {
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 12px 15px;
+            margin-bottom: 1rem;
+        }
+
+        .interactive-card .btn {
+            width: 100%;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .interactive-card .btn:hover {
+            background-color: #05b48b; /* slightly darker accent */
+            border-color: #05b48b;
+        }
+
+        .interactive-output {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            border-radius: 10px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+            color: var(--text-light);
+            word-break: break-word; /* Ensure long words break */
+        }
+        
+        .interactive-output.speaking {
+            background-color: #e0f2f7; /* Light blue when speaking */
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        /* Additional CSS for enhanced interactions */
+        .keyboard-navigation *:focus {
+            outline: 2px solid var(--accent-color) !important;
+            outline-offset: 2px;
+        }
+
+        .loaded {
+            animation: fadeInBody 0.5s ease-in;
+        }
+
+        @keyframes fadeInBody {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .hero-section {
+                background: #000;
+                color: #fff;
+            }
+            
+            .feature-card {
+                border: 2px solid #000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .navbar, .cta-section, .stats-section {
+                display: none;
+            }
+            
+            .hero-section {
+                background: white;
+                color: black;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-dark: #e2e8f0;
+                --text-light: #94a3b8;
+                --light-bg: #1e293b;
+                --dark-bg: #0f172a; /* Ensure dark-bg is consistent */
+            }
+            body {
+                background-color: var(--dark-bg);
+            }
+            .navbar {
+                background: rgba(30, 41, 59, 0.95) !important; /* Darker navbar for dark mode */
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            .navbar-brand, .nav-link {
+                color: var(--text-dark) !important;
+            }
+            .feature-card, .interactive-card {
+                background: #2d384b; /* Darker card background */
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .feature-title {
+                color: var(--text-dark);
+            }
+            .feature-description {
+                color: var(--text-light);
+            }
+            .section-title {
+                color: var(--text-dark);
+            }
+            .interactive-output {
+                background-color: #3b4c60; /* Darker output background */
+                color: var(--text-light);
+            }
+            .interactive-output.speaking {
+                background-color: #4b6980; /* Darker light blue when speaking */
+                color: var(--text-dark);
+            }
+            .interactive-card .form-control {
+                background-color: #1e293b;
+                border: 1px solid #475569;
+                color: var(--text-dark);
+            }
+            .interactive-card .form-control::placeholder {
+                color: var(--text-light);
+            }
         }
     </style>
 </head>
+
 <body>
-    <h1 style="color:blue; background-color: gray;">SignoVoice -get live interpreters</h1>
-    <video id="videoElement" autoplay controls></video>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-hands me-2"></i>SignoVoice
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#interactive-demo">Interactive Demo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#download">Download</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact-form-section">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section id="home" class="hero-section d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Breaking Communication Barriers</h1>
+                        <p class="hero-subtitle">
+                            SignoVoice bridges the gap between sign language and spoken communication, 
+                            creating an inclusive world where everyone can connect seamlessly.
+                        </p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <button class="btn btn-primary-custom btn-lg" id="downloadNowBtn">
+                                <i class="fas fa-download me-2"></i>Download Now
+                            </button>
+                            <button class="btn btn-outline-custom btn-lg" id="watchDemoBtn">
+                                <i class="fas fa-play me-2"></i>Watch Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div class="demo-video">
+                            <div>
+                                <i class="fas fa-mobile-alt fa-5x mb-3"></i>
+                                <p>Interactive App Preview</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in">Powerful Features</h2>
+                    <p class="section-subtitle fade-in">
+                        Advanced technology that makes communication accessible for everyone
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-paper"></i>
+                        </div>
+                        <h3 class="feature-title">Sign to Speech</h3>
+                        <p class="feature-description">
+                            Our AI-powered system recognizes sign language gestures in real-time and 
+                            converts them to clear, natural speech for seamless communication.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <h3 class="feature-title">Speech to Sign</h3>
+                        <p class="feature-description">
+                            Voice recognition technology converts spoken words into animated sign language, 
+                            making conversations accessible for deaf and hard-of-hearing individuals.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <h3 class="feature-title">Text Integration</h3>
+                        <p class="feature-description">
+                            Complete text support with speech-to-text and text-to-sign conversion, 
+                            providing multiple communication channels for maximum accessibility.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="feature-title">AI Learning</h3>
+                        <p class="feature-description">
+                            Machine learning adapts to individual signing styles and speech patterns, 
+                            improving accuracy and personalization over time.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3 class="feature-title">Real-time Translation</h3>
+                        <p class="feature-description">
+                            Instant communication with minimal delay, ensuring natural conversation 
+                            flow between sign language and spoken language users.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="fas fa-universal-access"></i>
+                        </div>
+                        <h3 class="feature-title">Universal Access</h3>
+                        <p class="feature-description">
+                            Support for multiple sign languages and dialects, making communication 
+                            possible across different regions and communities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section (NEWLY ADDED) -->
+    <section id="interactive-demo" class="interactive-demo-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in">Try SignoVoice Interactively</h2>
+                    <p class="section-subtitle fade-in">
+                        Experience basic SignoVoice concepts here
+                    </p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="interactive-card fade-in">
+                        <h4>Sign to Speech (Text Simulation)</h4>
+                        <p class="text-muted small">Type a word or phrase, and hear it spoken aloud. Imagine this as a gesture being translated!</p>
+                        <input type="text" id="signToSpeechInput" class="form-control" placeholder="Type a sign (e.g., 'Hello', 'Thank You')">
+                        <button class="btn btn-primary mt-3" id="readSignBtn"><i class="fas fa-volume-up me-2"></i>Speak Sign</button>
+                        <div class="interactive-output mt-3" id="signToSpeechOutput">
+                            Speech output will appear here...
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="interactive-card fade-in">
+                        <h4>Text to Sign Language Translation</h4>
+                        <p class="text-muted small">Type a word or phrase, and our AI will describe its sign language equivalent.</p>
+                        <input type="text" id="textToSignInput" class="form-control" placeholder="Type a word (e.g., 'Connect', 'Help')">
+                        <button class="btn btn-primary mt-3" id="getTextSignBtn"><i class="fas fa-sign-language me-2"></i>Get Sign Description</button>
+                        <div class="interactive-output mt-3" id="textToSignOutput">
+                            Sign description will appear here...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section (Original) -->
+    <section id="demo" class="demo-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in">See Our Full Demo In Action</h2>
+                    <p class="section-subtitle fade-in">
+                        Experience the power of SignoVoice through our full interactive demo video
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="demo-video fade-in">
+                        <div class="text-center">
+                            <i class="fas fa-play-circle fa-5x mb-3" style="color: var(--accent-color);"></i>
+                            <h4>Full Interactive Demo Video Coming Soon</h4>
+                            <p>Experience real-time sign language translation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card fade-in">
+                        <span class="stat-number counter" data-target="95">95%</span>
+                        <div class="stat-label">Accuracy Rate</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card fade-in">
+                        <span class="stat-number counter" data-target="50000">50000+</span>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card fade-in">
+                        <span class="stat-number counter" data-target="15">15</span>
+                        <div class="stat-label">Languages Supported</div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-card fade-in">
+                        <span class="stat-number counter" data-target="24">24</span>
+                        <div class="stat-label">Hours Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="cta-section py-5 position-relative">
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="row text-center">
+                <div class="col-12">
+                    <h2 class="section-title text-white fade-in">Ready to Connect?</h2>
+                    <p class="section-subtitle text-white fade-in">
+                        Download SignoVoice today and join thousands of users breaking communication barriers
+                    </p>
+                    
+                    <div class="d-flex justify-content-center flex-wrap gap-3 mb-4">
+                        <a href="#" class="app-store-btn fade-in">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iNjAiIGZpbGw9IiMwMDAiIHJ4PSI4Ii8+PHRleHQgeD0iOTAiIHk9IjI1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBmb250LXNpemU9IjEyIj5Eb3dubG9hZCBvbjwvdGV4dD48dGV4dCB4PSI5MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNmZmYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSJib2xkIj5BcHAgU3RvcmU8L3RleHQ+PC9zdmc+" alt="Download on App Store">
+                        </a>
+                        <a href="#" class="app-store-btn fade-in">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjYwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iNjAiIGZpbGw9IiMwMDAiIHJ4PSI4Ii8+PHRleHQgeD0iOTAiIHk9IjI1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBmb250LXNpemU9IjEyIj5HZXQgaXQgb248LHRleHQ+PHRleHQgeD0iOTAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjZmZmIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCI+R29vZ2xlIFBsYXk8L3RleHQ+PC9zdmc+" alt="Get it on Google Play">
+                        </a>
+                    </div>
+                    
+                    <p class="text-white-50">Available for iOS and Android • Free Download</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-form-section" class="py-5 bg-light-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="section-title fade-in">Get in Touch</h2>
+                    <p class="section-subtitle fade-in">
+                        Have questions or feedback? We'd love to hear from you!
+                    </p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card p-4 shadow-sm fade-in">
+                        <div class="card-body">
+                            <form id="contactForm"> 
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="What's your query about?">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your message..." required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary-form btn-lg">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="mb-3">
+                        <i class="fas fa-hands me-2"></i>SignoVoice
+                    </h5>
+                    <p class="text-white-50">
+                        Breaking communication barriers and creating an inclusive world where 
+                        everyone can connect through advanced sign language technology.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="footer-link" aria-label="Facebook">
+                            <i class="fab fa-facebook fa-lg"></i>
+                        </a>
+                        <a href="#" class="footer-link" aria-label="Twitter">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                        <a href="#" class="footer-link" aria-label="Instagram">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="#" class="footer-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="mb-3">Product</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#features" class="footer-link">Features</a></li>
+                        <li><a href="#demo" class="footer-link">Demo</a></li>
+                        <li><a href="#download" class="footer-link">Download</a></li>
+                        <li><a href="#" class="footer-link">Pricing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                        <li><a href="#" class="footer-link">Tutorials</a></li>
+                        <li><a href="#" class="footer-link">Community</a></li>
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Press</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="mb-3">Legal</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                        <li><a href="#" class="footer-link">Terms of Service</a></li>
+                        <li><a href="#" class="footer-link">Cookie Policy</a></li>
+                        <li><a href="#" class="footer-link">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-white-50 mb-0">
+                        © <span id="currentYear"></span> SignoVoice,ZynoxgenI. All rights reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="text-white-50 mb-0">
+                        Made with <i class="fas fa-heart text-danger"></i> for accessibility
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
     <script>
-        // Access the user's webcam and microphone with high-quality constraints
-        const video = document.getElementById('videoElement');
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-        // High-quality video and audio constraints
-        const constraints = {
-            video: {
-                width: { ideal: 1920 },  // Full HD width
-                height: { ideal: 1080 }, // Full HD height
-                frameRate: { ideal: 30 }, // 30 FPS for smoother video
-            },
-            audio: true // Include audio
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        // Request webcam and microphone access with specified constraints
-        navigator.mediaDevices.getUserMedia(constraints)
-            .then((stream) => {
-                // Set the video source to the webcam stream
-                video.srcObject = stream;
-            })
-            .catch((error) => {
-                console.error('Error accessing the webcam or microphone:', error);
-                alert('Unable to access the camera or microphone. Please allow access.');
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for statistics
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const increment = target / 100;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                
+                if (target > 1000) {
+                    element.textContent = Math.floor(current).toLocaleString() + '+';
+                } else {
+                    element.textContent = Math.floor(current) + (element.getAttribute('data-target').includes('%') ? '%' : '');
+                }
+            }, 20);
+        }
+
+        // Trigger counter animations when stats section is visible
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        animateCounter(counter);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+
+        // Interactive button effects
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Feature card hover effects
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Mobile menu close on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                    bsCollapse.hide();
+                }
+            });
+        });
+
+        // Demo video click handler (original placeholder)
+        document.querySelector('.demo-video').addEventListener('click', function() {
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="demoModalLabel">Full Demo Coming Soon!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>We are working hard to bring you a comprehensive interactive demo. Stay tuned!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            const demoModal = new bootstrap.Modal(document.getElementById('demoModal'));
+            demoModal.show();
+
+            // Clean up modal from DOM after it's hidden
+            document.getElementById('demoModal').addEventListener('hidden.bs.modal', function (event) {
+                this.remove();
+            });
+        });
+
+        // CTA button actions (original placeholder)
+        document.getElementById('downloadNowBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="downloadModalLabel">Download Coming Soon!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>The SignoVoice app is currently under development. We'll notify you when it's ready for download!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            const downloadModal = new bootstrap.Modal(document.getElementById('downloadModal'));
+            downloadModal.show();
+
+            document.getElementById('downloadModal').addEventListener('hidden.bs.modal', function (event) {
+                this.remove();
+            });
+        });
+
+        document.getElementById('watchDemoBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const message = document.createElement('div');
+            message.innerHTML = `
+                <div class="modal fade" id="watchDemoVideoModal" tabindex="-1" aria-labelledby="watchDemoVideoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="watchDemoVideoModalLabel">Watch Full Demo Video!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>This button will eventually link to a full demo video showcasing SignoVoice in action. For now, try our interactive demo below!</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(message);
+            const watchDemoVideoModal = new bootstrap.Modal(document.getElementById('watchDemoVideoModal'));
+            watchDemoVideoModal.show();
+
+            document.getElementById('watchDemoVideoModal').addEventListener('hidden.bs.modal', function (event) {
+                this.remove();
+            });
+        });
+
+
+        // Accessibility improvements
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Dynamic year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Loading animation (optional)
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+
+        // Parallax effect for hero section (subtle)
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                heroSection.style.transform = `translateY(${scrolled * 0.2}px)`; // Reduced parallax for smoother effect
+            }
+        });
+
+        // Initialize tooltips (Bootstrap)
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // Performance monitoring (non-critical code)
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(function() {
+                console.log('App loaded and optimized');
+            });
+        }
+
+        // --- NEWLY ADDED JAVASCRIPT FOR INTERACTIVE DEMO ---
+
+        // Sign to Speech Functionality
+        const signToSpeechInput = document.getElementById('signToSpeechInput');
+        const readSignBtn = document.getElementById('readSignBtn');
+        const signToSpeechOutput = document.getElementById('signToSpeechOutput');
+        const synth = window.speechSynthesis;
+        let utterance = null; // To hold the SpeechSynthesisUtterance object
+
+        if (signToSpeechInput && readSignBtn && signToSpeechOutput && synth) {
+            readSignBtn.addEventListener('click', () => {
+                const text = signToSpeechInput.value.trim();
+                if (text === '') {
+                    signToSpeechOutput.textContent = 'Please type something to speak.';
+                    signToSpeechOutput.classList.remove('speaking');
+                    return;
+                }
+
+                if (synth.speaking) {
+                    synth.cancel(); // Stop any ongoing speech
+                }
+
+                utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US'; // Set language
+
+                utterance.onstart = () => {
+                    signToSpeechOutput.textContent = 'Speaking... "' + text + '"';
+                    signToSpeechOutput.classList.add('speaking');
+                    readSignBtn.disabled = true;
+                    readSignBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Speaking...';
+                };
+
+                utterance.onend = () => {
+                    signToSpeechOutput.textContent = 'Finished speaking: "' + text + '"';
+                    signToSpeechOutput.classList.remove('speaking');
+                    readSignBtn.disabled = false;
+                    readSignBtn.innerHTML = '<i class="fas fa-volume-up me-2"></i>Speak Sign';
+                };
+
+                utterance.onerror = (event) => {
+                    console.error('SpeechSynthesisUtterance error:', event);
+                    signToSpeechOutput.textContent = 'Error speaking. Try again.';
+                    signToSpeechOutput.classList.remove('speaking');
+                    readSignBtn.disabled = false;
+                    readSignBtn.innerHTML = '<i class="fas fa-volume-up me-2"></i>Speak Sign';
+                };
+
+                synth.speak(utterance);
+            });
+
+            // Allow pressing Enter to speak
+            signToSpeechInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    readSignBtn.click();
+                }
+            });
+        } else {
+            console.warn("Speech Synthesis API not fully supported or elements not found.");
+            if(signToSpeechOutput) signToSpeechOutput.textContent = "Your browser may not support text-to-speech fully.";
+        }
+
+
+        // Text to Sign Language Translation (AI-powered description)
+        const textToSignInput = document.getElementById('textToSignInput');
+        const getTextSignBtn = document.getElementById('getTextSignBtn');
+        const textToSignOutput = document.getElementById('textToSignOutput');
+
+        if (textToSignInput && getTextSignBtn && textToSignOutput) {
+            getTextSignBtn.addEventListener('click', async () => {
+                const text = textToSignInput.value.trim();
+                if (text === '') {
+                    textToSignOutput.textContent = 'Please type a word or phrase to get its sign description.';
+                    return;
+                }
+
+                getTextSignBtn.disabled = true;
+                getTextSignBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Translating...';
+                textToSignOutput.textContent = 'Fetching sign description...';
+                textToSignOutput.classList.add('speaking'); // Use speaking class for loading visual feedback
+
+                try {
+                    const response = await fetch('/text-to-sign', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ text: text }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        textToSignOutput.innerHTML = `<strong>Sign for "${text.charAt(0).toUpperCase() + text.slice(1)}":</strong> ${result.description}`;
+                    } else {
+                        textToSignOutput.textContent = 'Failed to get sign description. ' + (result.error || 'Server error.');
+                    }
+                } catch (error) {
+                    console.error('Error fetching sign description:', error);
+                    textToSignOutput.textContent = 'Network error: Could not connect to the backend server. Please ensure the server is running.';
+                } finally {
+                    getTextSignBtn.disabled = false;
+                    getTextSignBtn.innerHTML = '<i class="fas fa-sign-language me-2"></i>Get Sign Description';
+                    textToSignOutput.classList.remove('speaking');
+                }
+            });
+
+            // Allow pressing Enter to get sign description
+            textToSignInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    getTextSignBtn.click();
+                }
+            });
+        }
+
+        // Handle Contact Form Submission - UPDATED FOR NODE.JS BACKEND
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const formData = new FormData(this);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML; // Use innerHTML to preserve icons
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+
+                try {
+                    // This URL points to your Node.js backend.
+                    // If your frontend and backend are on different domains/ports,
+                    // you might need to enable CORS on your Node.js server.
+                    const response = await fetch('/send-email', { // Changed to relative path
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        // Using Bootstrap modal instead of alert
+                        const successModal = new bootstrap.Modal(document.getElementById('successMessageModal'));
+                        document.getElementById('successMessageModalBody').textContent = 'Message sent successfully!';
+                        successModal.show();
+                        this.reset(); // Clear the form
+                    } else {
+                        const errorModal = new bootstrap.Modal(document.getElementById('errorMessageModal'));
+                        document.getElementById('errorMessageModalBody').textContent = 'Error: ' + (result.message || 'Something went wrong.');
+                        errorModal.show();
+                    }
+                } catch (error) {
+                    console.error('Network or server error:', error);
+                    const networkErrorModal = new bootstrap.Modal(document.getElementById('errorMessageModal'));
+                    document.getElementById('errorMessageModalBody').textContent = 'Failed to send message. Please ensure the backend server is running and try again later.';
+                    networkErrorModal.show();
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                }
+            });
+        }
+
+        // --- Bootstrap Modals for Alerts (instead of window.alert) ---
+        // Success Modal
+        const successModalHtml = `
+            <div class="modal fade" id="successMessageModal" tabindex="-1" aria-labelledby="successMessageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="successMessageModalLabel">Success!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="successMessageModalBody">
+                            <!-- Message will be injected here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', successModalHtml);
+
+        // Error Modal
+        const errorModalHtml = `
+            <div class="modal fade" id="errorMessageModal" tabindex="-1" aria-labelledby="errorMessageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="errorMessageModalLabel">Error!</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="errorMessageModalBody">
+                            <!-- Message will be injected here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', errorModalHtml);
+
+    </script>
+    <script>
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyAfoRvjD28SgXGhY3MqlH_HmhpJ22pWqOM",
+        authDomain: "inclusisignbyzynoxgeni.firebaseapp.com",
+        projectId: "inclusisignbyzynoxgeni",
+        storageBucket: "inclusisignbyzynoxgeni.firebasestorage.app",
+        messagingSenderId: "1095584081528",
+        appId: "1:1095584081528:web:42b7f15fe3acfc35686f8d",
+        measurementId: "G-20G5ENZXCG"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
     </script>
 </body>
 </html>
